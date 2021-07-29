@@ -29,7 +29,7 @@ class Dispacher (threading.Thread):
     def init_dispacher(self):
         continueCon = True
         while continueCon:
-            print('Await menssage client : ' + self.nameThread)
+            # print('Await menssage client : ' + self.nameThread)
             data = self._CONECTION.recv(256)
             if data:
                 contunue = self.respose(data)
@@ -42,6 +42,7 @@ class Dispacher (threading.Thread):
     def respose(self, _data):
 
         _data = _data.decode()
+        print(_data)
 
         if(_data == 'exit'):
             self.closeConnection()
@@ -55,7 +56,9 @@ class Dispacher (threading.Thread):
             self.sendStatus()
             return "continue"
 
-        if(_data != ''):
+        if(_data):
+            # data_split = str(_data).split(str="", num=str(_data.count(str))
+            print(str(_data))
             send = 'ok'
             self._CONECTION.send(send.encode())
 

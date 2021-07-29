@@ -8,17 +8,17 @@ class View():
 
     def __init__(self):
 
-        #Connection
-        self.connection = socketClient("name", "Direccion", self)
-        #Get resource
+        # Get resource
         self.name = socket.gethostname()
         self.address = socket.gethostbyname(socket.gethostname())
-        #Instance view
+        # Connection
+        self.connection = socketClient(self.name, self.address, self)
+        # Instance view
         self.root = Tk()
         self.frame = Frame(self.root)
         self.frame.pack()
 
-        #Init Config and view
+        # Init Config and view
         self.configureView()
         self.buildView()
         self.root.mainloop()
@@ -54,6 +54,7 @@ class View():
         self.root.configure(bg=self.rgbtohex(27, 29, 30))
         self.root.title("Message")
 
+    #ENVIAR MENSAJE A TODOS O DESTINATARIOS
     def sendMessage(self):
         self.textArea.configure(state='normal')
         aliasText = self.inputAlias.get()
@@ -64,7 +65,9 @@ class View():
         aliasText += " :\n"
         self.textArea.insert(END, aliasText + self.inputSend.get() + "\n")
         self.textArea.configure(state='disabled')
+        self.connection.sendMessage(self.name, self.address, self.inputAlias.get(), self.inputSend.get(), "Alls")
 
+    #LISTA CONEXIONES DISPONIBLES
     def listConnection(self):
         print("List connection")
         listObject = {
@@ -74,6 +77,7 @@ class View():
         }
         print(listObject)
 
+    #RETORNA FORMATO RGB PARA COLOREAR LA VIEW
     def rgbtohex(self, r, g, b):
         return f'#{r:02x}{g:02x}{b:02x}'
 
